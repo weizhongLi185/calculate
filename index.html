@@ -93,7 +93,7 @@ function calc() {
     const buyCost = buy * qty;
     const sellValue = sell * qty;
 
-    // 手續費最低1元，無條件捨去
+    // 手續費：0.1425%，無條件捨去，最低 1 元
     const buyFee = Math.max(Math.floor(buyCost * 0.001425), 1);
     const sellFee = Math.max(Math.floor(sellValue * 0.001425), 1);
 
@@ -109,22 +109,24 @@ function calc() {
     // 證交稅無條件捨去
     const tax = Math.floor(sellValue * taxRate);
 
-    const profit =
-        sellValue -
-        buyCost -
-        buyFee -
-        sellFee -
-        tax;
+    const totalBuyCost = buyCost + buyFee;
+    const netSellValue = sellValue - sellFee - tax;
 
-    const roi = (profit / buyCost) * 100;
+    const profit = netSellValue - totalBuyCost;
+
+    const roi = (profit / totalBuyCost) * 100;
 
     document.getElementById("result").innerHTML = `
-        股數：${qty.toLocaleString()} 股<br>
-        買入成本：${Math.floor(buyCost).toLocaleString()} 元<br>
-        賣出金額：${Math.floor(sellValue).toLocaleString()} 元<br>
+        股數：${qty.toLocaleString()} 股<br><br>
+
+        買入成交金額：${Math.floor(buyCost).toLocaleString()} 元<br>
         買入手續費：${buyFee.toLocaleString()} 元<br>
+        總買入成本：${Math.floor(totalBuyCost).toLocaleString()} 元<br><br>
+
+        賣出成交金額：${Math.floor(sellValue).toLocaleString()} 元<br>
         賣出手續費：${sellFee.toLocaleString()} 元<br>
-        證交稅：${tax.toLocaleString()} 元<br><br>
+        證交稅：${tax.toLocaleString()} 元<br>
+        賣出淨收入：${Math.floor(netSellValue).toLocaleString()} 元<br><br>
 
         <h3>已實現損益：${Math.floor(profit).toLocaleString()} 元</h3>
         <h3>投報率：${roi.toFixed(2)}%</h3>
@@ -134,3 +136,4 @@ function calc() {
 
 </body>
 </html>
+
