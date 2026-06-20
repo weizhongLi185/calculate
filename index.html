@@ -98,10 +98,10 @@ function calc() {
     const amount = parseInt(document.getElementById("amount").value);
     const unit = document.getElementById("unit").value;
 
-    if (isNaN(buy) || isNaN(sell) || isNaN(amount) || amount <= 0) {
-        alert("請輸入正確資料");
-        return;
-    }
+    if (isNaN(buy) || isNaN(sell) || isNaN(amount) || buy < 0 || sell < 0 || amount <= 0) {
+    alert("請輸入正確資料");
+    return;
+}
 
     document.getElementById("resultTitle").style.display = "block";
 
